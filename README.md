@@ -8,25 +8,27 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Monolith" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <title>Monolith</title>
+  <title>Monolith v4</title>
   <style>
     :root{
-      --bg:#090a0c;--panel:#111318;--panel2:#171a20;--ink:#f4f4f2;--muted:#9ca3af;
-      --line:#292d35;--red:#2f855a;--red2:#14532d;--green:#4ade80;--amber:#f6c453;
-      --blue:#62a8ff;--shadow:0 14px 30px rgba(0,0,0,.28);--radius:16px;
+      --bg:#0b0f0d;--panel:#171d1a;--panel2:#1f2823;--ink:#f5f8f6;--muted:#c1cbc5;
+      --line:#3a4640;--red:#36b56f;--red2:#1f7a4c;--green:#5eea97;--amber:#f6c453;
+      --blue:#7ab7ff;--shadow:0 12px 28px rgba(0,0,0,.24);--radius:16px;
+      --heading-font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     }
     *{box-sizing:border-box}
     html{background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     body{margin:0;background:
-      radial-gradient(circle at top right,rgba(229,72,77,.12),transparent 34%),
-      linear-gradient(180deg,#0c0d10 0%,var(--bg) 28%);min-height:100vh}
+      radial-gradient(circle at top right,rgba(54,181,111,.18),transparent 34%),
+      radial-gradient(circle at 15% 10%,rgba(94,234,151,.10),transparent 26%),
+      linear-gradient(180deg,#101613 0%,#0b0f0d 52%,#090d0b 100%);min-height:100vh}
     button,input,select,textarea{font:inherit}
     button{cursor:pointer}
     .app{max-width:900px;margin:0 auto;padding:env(safe-area-inset-top) 14px calc(96px + env(safe-area-inset-bottom))}
     header{padding:18px 4px 10px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-    h1{font-size:28px;line-height:1;margin:0;letter-spacing:-.04em;font-family:var(--heading-font,inherit)}
-    h2{font-size:21px;margin:0 0 12px;letter-spacing:-.025em;font-family:var(--heading-font,inherit)}
-    h3{font-size:16px;margin:0;font-family:var(--heading-font,inherit)}
+    h1{font-size:30px;line-height:1;margin:0;letter-spacing:-.035em;font-family:var(--heading-font,inherit);color:#f7fbf8}
+    h2{font-size:22px;margin:0 0 12px;letter-spacing:-.02em;font-family:var(--heading-font,inherit);color:#f7fbf8}
+    h3{font-size:16px;margin:0;font-family:var(--heading-font,inherit);color:#f7fbf8}
     p{color:var(--muted);line-height:1.5}
     .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--red);font-weight:800;margin-bottom:7px}
     .date-chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:8px 11px;color:var(--muted);font-size:12px;white-space:nowrap}
@@ -68,7 +70,7 @@
     nav{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(10,11,14,.94);border-top:1px solid var(--line);backdrop-filter:blur(16px);padding:8px 10px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(7,1fr)}
     nav button{border:0;background:transparent;color:#858b96;padding:8px 4px;font-size:10px;font-weight:800;display:grid;gap:4px;place-items:center}
     nav button span{font-size:20px;line-height:1}nav button.active{color:white}
-    .fab{position:fixed;right:18px;bottom:88px;z-index:30;border:0;border-radius:999px;background:var(--red);color:white;padding:13px 16px;font-weight:900;box-shadow:0 12px 30px rgba(229,72,77,.34)}
+    .fab{position:fixed;right:16px;bottom:94px;z-index:30;border:0;border-radius:999px;background:var(--red);color:white;padding:12px 15px;font-weight:900;box-shadow:0 12px 30px rgba(54,181,111,.28)}
     dialog{width:min(94vw,600px);max-height:88vh;overflow:auto;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:0;box-shadow:0 30px 80px rgba(0,0,0,.6)}
     dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(4px)}
     .modal-head{position:sticky;top:0;background:rgba(17,19,24,.97);padding:15px;border-bottom:1px solid var(--line);z-index:2;display:flex;justify-content:space-between;align-items:center}
@@ -104,8 +106,37 @@
     .meal-title{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--green);font-weight:900;margin:14px 0 6px}
     .food-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
     .food-row:last-child{border-bottom:0}
-    .font-sample{font-size:26px;line-height:1.05;margin-top:8px;font-family:var(--heading-font,inherit)}
+    .font-sample{font-size:26px;line-height:1.05;margin-top:8px;font-family:var(--heading-font,inherit);color:#f7fbf8}
     @media(max-width:560px){.macro-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+    /* v4 readability polish */
+    .card{background:linear-gradient(180deg,rgba(31,40,35,.98),rgba(22,29,25,.98));border-color:#415047}
+    .card.tight{background:linear-gradient(180deg,rgba(33,43,37,.98),rgba(22,29,25,.98))}
+    h1,h2,h3{color:#f7fbf8;text-shadow:none}
+    .eyebrow{color:#5eea97}
+    .muted,.tiny,.smalltext{color:#c1cbc5}
+    .label{color:#b8c7bf}
+    .tag{color:#d8e4dd;border-color:#45544b;background:#202922}
+    .btn{background:#202a25;border-color:#48584f;color:#f7fbf8}
+    .btn.primary{background:linear-gradient(180deg,#36b56f,#1f7a4c);border-color:#5eea97;color:#ffffff;box-shadow:0 8px 18px rgba(54,181,111,.18)}
+    .btn.ghost{background:rgba(255,255,255,.03)}
+    .input,select,textarea{background:#111713;border-color:#415047;color:#f7fbf8}
+    .input::placeholder,textarea::placeholder{color:#87938c}
+    .day-pill{background:#121814;border-color:#3d4942;color:#d4ded8}
+    .day-pill.active{background:#1f7a4c;border-color:#5eea97;color:#fff}
+    .exercise,.macro-card,.food-result{background:#121814;border-color:#3f4b44}
+    .history-item{border-bottom-color:#3a4640}
+    .date-chip{background:#19211d;border-color:#415047;color:#e5eee9}
+    nav{background:rgba(13,18,15,.96);border-top-color:#3a4640}
+    nav button{color:#aab7b0}
+    nav button.active{color:#ffffff}
+    .fab{background:#2b9b60;color:#fff;box-shadow:0 12px 26px rgba(54,181,111,.26)}
+    .progress{background:#0a0e0c;border-color:#334039}
+    .progress>span{background:linear-gradient(90deg,#1f7a4c,#5eea97)}
+    .trend-banner{background:linear-gradient(180deg,rgba(31,122,76,.46),rgba(22,29,25,.98))}
+    header{padding:18px 4px 14px}
+    main{padding-top:2px}
 
     .trend-banner{border:1px solid rgba(74,222,128,.35);background:linear-gradient(180deg,rgba(20,83,45,.38),rgba(13,15,19,.96));border-radius:16px;padding:14px}
     .trend-banner.warn{border-color:rgba(246,196,83,.45);background:linear-gradient(180deg,rgba(106,76,20,.32),rgba(13,15,19,.96))}
@@ -127,7 +158,7 @@
   <header>
     <div>
       <div class="eyebrow">Personal training log</div>
-      <h1>Monolith</h1>
+      <h1>Monolith</h1><div class="tiny muted" style="margin-top:5px">v4 clean build</div>
     </div>
     <div class="date-chip" id="todayChip"></div>
   </header>
@@ -463,6 +494,7 @@
         <div class="font-sample">MONOLITH</div>
         <p class="tiny muted" id="customFontLabel">No custom font uploaded. Upload your own legally obtained Fayte, Inktoner, or similar font file if you want the real look.</p>
         <button class="btn small danger" onclick="clearCustomFont()">Clear uploaded font</button>
+        <button class="btn small" onclick="resetVisualSettings()">Reset visual defaults</button>
       </div>
 
       <div class="card" id="habitSettingsCard">
@@ -535,8 +567,8 @@
 </dialog>
 
 <script>
-const STORAGE_KEY = 'monolithDataV2';
-const PHOTO_DB = 'MonolithPhotos';
+const STORAGE_KEY = 'monolithDataV4';
+const PHOTO_DB = 'MonolithPhotosV4';
 const todayISO = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
 const uid = () => crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2);
 const days = ['Day 1','Day 2','Day 3','Day 4','Day 5','Day 6','Day 7','Day 8'];
@@ -852,6 +884,17 @@ function exportCSV(){
 
 
 
+
+function scrubVisibleSourceArtifacts(){
+  const app=document.querySelector('.app');
+  [...document.body.childNodes].forEach(n=>{
+    if(n.nodeType===3 && n.textContent && /doctype html|<html|MonolithV\d+/i.test(n.textContent)) n.textContent='';
+    if(n.nodeType===1 && app && n!==app && !['NAV','BUTTON','DIALOG','DIV','SCRIPT'].includes(n.nodeName)){
+      if(/doctype html|MonolithV\d+/i.test(n.textContent||'')) n.remove();
+    }
+  });
+}
+
 function allFoods(){return [...FOOD_INDEX,...(data.customFoods||[])];}
 function renderFoodOptions(){
   const dl=document.getElementById('foodOptions'); if(!dl)return;
@@ -959,7 +1002,7 @@ function saveTypographySetting(){
 function applyTypography(){
   const existing=document.getElementById('customFontStyle'); if(existing)existing.remove();
   const root=document.documentElement, choice=data.settings?.headerFont||'system';
-  if(choice==='blackletter')root.style.setProperty('--heading-font',`"Old English Text MT","UnifrakturMaguntia","UnifrakturCook","Pirata One",Georgia,serif`);
+  if(choice==='blackletter')root.style.setProperty('--heading-font',`Georgia,"Times New Roman",serif`);
   else if(choice==='distressed')root.style.setProperty('--heading-font',`Impact,"Arial Black","Helvetica Neue Condensed Black",sans-serif`);
   else if(choice==='serif')root.style.setProperty('--heading-font',`Georgia,"Times New Roman",serif`);
   else if(choice==='custom' && data.settings.customFontData){
@@ -974,6 +1017,17 @@ function uploadCustomFont(e){
   reader.onload=()=>{data.settings.customFontData=reader.result;data.settings.customFontName=file.name;data.settings.headerFont='custom';localStorage.setItem(STORAGE_KEY,JSON.stringify(data));renderSettings();applyTypography();toast('Custom font loaded locally')};
   reader.readAsDataURL(file);
 }
+
+function resetVisualSettings(){
+  data.settings.headerFont='system';
+  data.settings.customFontData='';
+  data.settings.customFontName='';
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+  renderSettings();
+  applyTypography();
+  toast('Visual defaults restored');
+}
+
 function clearCustomFont(){
   data.settings.customFontData='';data.settings.customFontName='';if(data.settings.headerFont==='custom')data.settings.headerFont='system';localStorage.setItem(STORAGE_KEY,JSON.stringify(data));renderSettings();applyTypography();toast('Custom font cleared');
 }
@@ -1130,6 +1184,7 @@ function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
 
 ['foodQuery','foodQty','foodUnit','foodServingOverride'].forEach(id=>{const el=document.getElementById(id); if(el)el.addEventListener('input',updateFoodPreview)});
 
+scrubVisibleSourceArtifacts();
 selectedScheduleDay = rotationCurrentDay();
 if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 renderAll();
