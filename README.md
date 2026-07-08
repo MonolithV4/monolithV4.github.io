@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -8,11 +8,11 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Monolith" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <title>Monolith v4</title>
+  <title>Monolith v5</title>
   <style>
     :root{
-      --bg:#0b0f0d;--panel:#171d1a;--panel2:#1f2823;--ink:#f5f8f6;--muted:#c1cbc5;
-      --line:#3a4640;--red:#36b56f;--red2:#1f7a4c;--green:#5eea97;--amber:#f6c453;
+      --bg:#0b0f0d;--panel:#17211c;--panel2:#223127;--ink:#f8fbf8;--muted:#d4ded8;
+      --line:#52645a;--red:#36b56f;--red2:#1f7a4c;--green:#5eea97;--amber:#f6c453;
       --blue:#7ab7ff;--shadow:0 12px 28px rgba(0,0,0,.24);--radius:16px;
       --heading-font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     }
@@ -151,6 +151,81 @@
       .photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       header{align-items:center}
     }
+  
+    /* v5 hard contrast patch: stop dark text inheritance on iOS/Safari */
+    html,body,.app,main,section,.card,.exercise,.history-item,.habit-row,.food-row,.macro-card,.food-result,details,summary,dialog{
+      color:#f8fbf8 !important;
+    }
+    h1,h2,h3,h4,h5,h6,
+    .metric,.macro-value,.sleep-score,
+    .habit-row span,.history-item b,.food-row b,
+    .exercise span,.exercise h3,
+    .smalltext,.tiny,.muted,.label,
+    #todayWorkoutTitle,#todayWorkoutPreview,
+    #dashSteps,#dashWeight,#weightChange,
+    #habitChecklist,#recentWorkouts,
+    #schedulePreview,#workoutHistory,#activityHistory,
+    #measurementHistory,#sleepHistory,#foodLogList,
+    #plateAnswer,#foodPreview{
+      color:#f8fbf8 !important;
+      -webkit-text-fill-color:#f8fbf8 !important;
+      opacity:1 !important;
+    }
+    .muted,.tiny,.smalltext,
+    .habit-row span,
+    .history-item .tiny,
+    .food-row .tiny,
+    .exercise .tiny,
+    .metric small{
+      color:#d4ded8 !important;
+      -webkit-text-fill-color:#d4ded8 !important;
+    }
+    .label,.eyebrow{
+      color:#9ff0bd !important;
+      -webkit-text-fill-color:#9ff0bd !important;
+      opacity:1 !important;
+    }
+    .date-chip,.tag,nav button{
+      color:#dfe9e3 !important;
+      -webkit-text-fill-color:#dfe9e3 !important;
+    }
+    nav button.active{
+      color:#ffffff !important;
+      -webkit-text-fill-color:#ffffff !important;
+    }
+    input,select,textarea{
+      color:#f8fbf8 !important;
+      -webkit-text-fill-color:#f8fbf8 !important;
+      caret-color:#5eea97;
+      background:#111713 !important;
+    }
+    input::placeholder,textarea::placeholder{
+      color:#9ba9a1 !important;
+      -webkit-text-fill-color:#9ba9a1 !important;
+      opacity:1 !important;
+    }
+    input[type="checkbox"]{
+      accent-color:#36b56f;
+      -webkit-text-fill-color:initial !important;
+    }
+    .btn,.btn span,.icon-btn,.fab{
+      color:#ffffff !important;
+      -webkit-text-fill-color:#ffffff !important;
+    }
+    .card{
+      background:linear-gradient(180deg,rgba(30,43,35,.99),rgba(20,30,25,.99)) !important;
+      border-color:#52645a !important;
+    }
+    .exercise,.macro-card,.food-result,details{
+      background:#121b16 !important;
+      border-color:#47594f !important;
+    }
+    .progress{background:#09100c !important;border-color:#42534a !important}
+    .progress>span{background:linear-gradient(90deg,#24965c,#65f2a0) !important}
+    .day-pill{color:#dfe9e3 !important;-webkit-text-fill-color:#dfe9e3 !important}
+    .day-pill.active{color:#ffffff !important;-webkit-text-fill-color:#ffffff !important}
+    .fab{bottom:104px !important}
+
   </style>
 </head>
 <body>
@@ -158,7 +233,7 @@
   <header>
     <div>
       <div class="eyebrow">Personal training log</div>
-      <h1>Monolith</h1><div class="tiny muted" style="margin-top:5px">v4 clean build</div>
+      <h1>Monolith</h1><div class="tiny muted" style="margin-top:5px">v5 contrast build</div>
     </div>
     <div class="date-chip" id="todayChip"></div>
   </header>
@@ -567,8 +642,8 @@
 </dialog>
 
 <script>
-const STORAGE_KEY = 'monolithDataV4';
-const PHOTO_DB = 'MonolithPhotosV4';
+const STORAGE_KEY = 'monolithDataV5';
+const PHOTO_DB = 'MonolithPhotosV5V5';
 const todayISO = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
 const uid = () => crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2);
 const days = ['Day 1','Day 2','Day 3','Day 4','Day 5','Day 6','Day 7','Day 8'];
@@ -712,12 +787,13 @@ function showScreen(id,btn){
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));
   if(id==='progress') renderPhotos(); if(id==='food') renderFood();
+  enforceReadableContrast();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function renderAll(){
   document.getElementById('todayChip').textContent=new Date().toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
   ['activityDate','measureDate','photoDate','foodDate','sleepDate'].forEach(id=>{const el=document.getElementById(id); if(el&&!el.value)el.value=todayISO()});
-  renderDashboard(); renderSchedule(); renderWorkoutHistory(); renderActivity(); renderFood(); renderSleep(); renderMeasurements(); renderPlateInventory(); calculateBarbell(); renderHabitSettings(); renderSettings(); applyTypography();
+  renderDashboard(); renderSchedule(); renderWorkoutHistory(); renderActivity(); renderFood(); renderSleep(); renderMeasurements(); renderPlateInventory(); calculateBarbell(); renderHabitSettings(); renderSettings(); applyTypography(); enforceReadableContrast();
 }
 function renderDashboard(){
   const day=rotationCurrentDay(), plan=data.schedule[day];
@@ -884,6 +960,38 @@ function exportCSV(){
 
 
 
+
+
+function enforceReadableContrast(){
+  const readable = '#f8fbf8';
+  const soft = '#d4ded8';
+  const green = '#9ff0bd';
+  const selectors = [
+    '.card','.exercise','.history-item','.habit-row','.food-row',
+    '.metric','.macro-value','.sleep-score',
+    '#dashSteps','#dashWeight','#weightChange',
+    '#habitChecklist span','#recentWorkouts','#schedulePreview',
+    '#foodLogList','#sleepHistory','#measurementHistory',
+    'h1','h2','h3','summary'
+  ];
+  selectors.forEach(sel=>{
+    document.querySelectorAll(sel).forEach(el=>{
+      el.style.color = readable;
+      el.style.webkitTextFillColor = readable;
+      el.style.opacity = '1';
+    });
+  });
+  document.querySelectorAll('.muted,.tiny,.smalltext,.metric small,.exercise .tiny,.history-item .tiny,.food-row .tiny').forEach(el=>{
+    el.style.color = soft;
+    el.style.webkitTextFillColor = soft;
+    el.style.opacity = '1';
+  });
+  document.querySelectorAll('.label,.eyebrow').forEach(el=>{
+    el.style.color = green;
+    el.style.webkitTextFillColor = green;
+    el.style.opacity = '1';
+  });
+}
 
 function scrubVisibleSourceArtifacts(){
   const app=document.querySelector('.app');
@@ -1189,5 +1297,7 @@ selectedScheduleDay = rotationCurrentDay();
 if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 renderAll();
 </script>
+</body>
+</html>
 </body>
 </html>
